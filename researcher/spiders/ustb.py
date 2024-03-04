@@ -1,9 +1,10 @@
 import scrapy
 
+from researcher.items import USTBResearcherItem
+
 
 class UstbSpider(scrapy.Spider):
     name = "ustb"
-    allowed_domains = ["enscce.ustb.edu.cn"]
     start_urls = ["https://enscce.ustb.edu.cn/Teach/TeacherList/"]
 
     def parse(self, response):
@@ -20,8 +21,8 @@ class UstbSpider(scrapy.Spider):
         teacher = {
             "name": response.css("div.details_t_left > div::text").get(),
             "title": response.css("dd:nth-child(2) > div.duty_right::text").get(),
-            "department": response.css("dd:nth-child(1) > div.duty_right::text").get(),
+            "departments": response.css("dd:nth-child(1) > div.duty_right::text").get(),
             "mail": response.css("dd:nth-child(6) > div.duty_right::text").get(),
             "research_interests": response.css("dd:nth-child(3) > div.duty_right.duty_nows::text").get(),
         }
-        print(teacher)
+        yield USTBResearcherItem(**teacher)
