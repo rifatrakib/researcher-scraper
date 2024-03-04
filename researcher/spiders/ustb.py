@@ -24,5 +24,6 @@ class UstbSpider(scrapy.Spider):
             "departments": response.css("dd:nth-child(1) > div.duty_right::text").get(),
             "mail": response.css("dd:nth-child(6) > div.duty_right::text").get(),
             "research_interests": response.css("dd:nth-child(3) > div.duty_right.duty_nows::text").get(),
+            "link": response.url,
         }
         yield USTBResearcherItem(**teacher)
